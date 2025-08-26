@@ -31,7 +31,7 @@ const LatestReview = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -48,13 +48,13 @@ const LatestReview = () => {
   };
 
   return (
-    <div className="w-full mt-10 px-10">
+    <div className="w-full mt-10 px-1 md:px-10">
       <h1 className="text-3xl font-semibold text-green-500 border-l-7 pl-3">
         Latest Reviews
       </h1>
 
       {/* Arrow Controls */}
-      <div className="flex items-center justify-center md:justify-end gap-8 mt-2 md:mt-0 text-3xl mb-6">
+      <div className="flex items-center justify-end pr-6 gap-8 mt-2 md:mt-0 text-3xl mb-6">
         <FaArrowAltCircleLeft
           onClick={previous}
           className="cursor-pointer text-green-500"

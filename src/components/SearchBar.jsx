@@ -1,41 +1,89 @@
-import React from "react";
-import { useLocation, Link } from "react-router-dom";
-import data from "../data/data.json"; // Adjust path if needed
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Fuse from "fuse.js";
+import { FaSearch } from "react-icons/fa";
+import moviesData from "../data/data.json"; // adjust path if needed
 
-const useQuery = () => new URLSearchParams(useLocation().search);
+const fuse = new Fuse(moviesData, {
+  keys: ["title"],
+  threshold: 0.4,
+  includeScore: true,
+});
 
-const SearchResults = () => {
-  const query = useQuery().get("q")?.toLowerCase() || "";
+const SearchBar = ({ placeholder = "Search...", className = "" }) => {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+  const timeoutRef = useRef(null);
+  const containerRef = useRef();
 
-  // Filter movies by title match
-  const filteredMovies = data.filter((movie) =>
-    movie.title.includes(query)
-  );
+  // Debounced fuzzy search
+  const handleSearch = (value) => {
+    setQuery(value);
+    clearTimeout(timeoutRef.current);
+
+    timeoutRef.current = setTimeout(() => {
+      if (value.trim() === "") {
+        setResults([]);
+        return;
+      }
+      const fuseResults = fuse.search(value).map((r) => r.item);
+      setResults(fuseResults);
+    }, 300);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setResults([]);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   return (
-    <div className="mt-28 px-4 text-white min-h-screen hidden">
-      <h2 className="text-2xl mb-4">
-        Search Results for: <span className="text-green-500">{query}</span>
-      </h2>
+    <div ref={containerRef} className={`relative w-full max-w-md ${className}`}>
+      <div className="flex items-center bg-slate-700 rounded-md px-2 py-1">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => handleSearch(e.target.value)}
+          placeholder={placeholder}
+          className="bg-transparent outline-none px-2 py-1 text-white placeholder:text-white w-full"
+        />
+        <FaSearch className="text-white" />
+      </div>
 
-      {filteredMovies.length > 0 ? (
-        <ul className="space-y-4">
-          {filteredMovies.map((movie) => (
-            <li key={movie.id}>
+      {results.length > 0 && (
+        <ul className="absolute left-0 right-0 bg-slate-950 px-4 text-white mt-4 scrollbar-hide rounded shadow-md max-h-[80vh] overflow-auto z-50">
+          {results.map((movie) => (
+            <li key={movie.id} className="rounded-md hover:bg-gray-800">
               <Link
                 to={`/movie/${movie.slug}`}
-                className="text-lg text-green-400 hover:underline"
+                className="flex gap-3 p-2 items-center"
+                onClick={() => {
+                  setQuery("");
+                  setResults([]);
+                }}
               >
-                {movie.title}
+                <img
+                  src={movie.poster}
+                  alt={movie.title}
+                  className="w-20 h-24 object-cover rounded"
+                />
+                <div>
+                  <h4 className="font-semibold">{movie.title}</h4>
+                  <h4 className="font-semibold">{movie.year}</h4>
+                  <p className="text-sm line-clamp-2">{movie.description}</p>
+                </div>
               </Link>
             </li>
           ))}
         </ul>
-      ) : (
-        <p>No results found for "{query}"</p>
       )}
     </div>
   );
 };
 
-export default SearchResults;
+export default SearchBar;

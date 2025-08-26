@@ -28,7 +28,7 @@ const Header = () => {
         </NavLink>
 
         <div className="hidden md:block w-80">
-          <SearchBar placeholder="What are you looking for?" />
+          <SearchBar className="w-full max-w-lg" placeholder="What are you lookig for?" />
         </div>
 
         {/* Mobile menu button */}
