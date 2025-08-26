@@ -34,25 +34,19 @@ const Trending = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
           slidesToScroll: 1,
           infinite: true,
         },
       },
       {
-        breakpoint: 670,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
+        breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
+      
     ],
   };
 
@@ -63,7 +57,7 @@ const Trending = () => {
       </h1>
 
       {/* Arrow Controls */}
-      <div className="flex items-center justify-center md:justify-end gap-8 text-3xl mb-6">
+      <div className="flex items-center justify-center md:justify-end gap-8 text-3xl mt-2 md:mt-0 mb-6">
         <FaArrowAltCircleLeft
           onClick={previous}
           className="cursor-pointer text-green-500"

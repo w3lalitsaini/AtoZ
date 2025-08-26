@@ -1,94 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { FaBars, FaTimes, FaHome, FaSearch } from "react-icons/fa";
 import { BiMoviePlay } from "react-icons/bi";
 import { IoIosGlobe } from "react-icons/io";
 import { FaLink } from "react-icons/fa6";
 import { CiFaceSmile } from "react-icons/ci";
 import { TbRating18Plus } from "react-icons/tb";
-import { FaSearch } from "react-icons/fa";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const navItems = [
+    { to: "/", label: "Home", icon: <FaHome /> },
+    { to: "/category/movies", label: "Movies", icon: <BiMoviePlay /> },
+    { to: "/category/web-series", label: "Web Series", icon: <IoIosGlobe /> },
+    { to: "/category/genre", label: "Genre", icon: <FaLink /> },
+    { to: "/category/anime", label: "Anime", icon: <CiFaceSmile /> },
+    { to: "/category/18+", label: "18+", icon: <TbRating18Plus /> },
+  ];
+
   return (
-    <header className="w-full bg-slate-900 flex flex-col gap-1 pt-2 ">
-      <div className="flex items-center justify-between px-16">
-        <NavLink to={"/"} className="text-2xl font-semibold">
-          a2z <span className="font-bold text-green-500">Movies</span>
+    <header className="fixed top-0 w-full z-50 bg-slate-900 shadow-lg">
+      <div className="flex items-center justify-between px-4 md:px-16 py-3">
+        <NavLink to="/" className="text-2xl font-bold text-white">
+          a2z <span className="text-green-500">Movies</span>
         </NavLink>
 
-        <div className="flex items-center justify-between gap-1 px-2 py-1 rounded-md bg-slate-700">
-          <input
-            type="search"
-            name="search"
-            id="search"
-            placeholder="What are you looking for ?"
-            className="w-72 outline-0 p-1 placeholder:text-white"
-          />
-          <FaSearch />
+        <div className="hidden md:block w-80">
+          <SearchBar placeholder="What are you looking for?" />
         </div>
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden text-white text-2xl"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <FaTimes /> : <FaBars />}
+        </button>
       </div>
 
-      <div>
-        <nav className="bg-slate-800 py-2">
-          <ul className="flex items-center justify-center gap-10">
-            <li className="hover:bg-slate-700 rounded-md group">
+      {/* Desktop Nav */}
+      <nav className="hidden md:block bg-slate-800">
+        <ul className="flex items-center justify-center gap-10 py-2">
+          {navItems.map((item) => (
+            <li key={item.to}>
               <NavLink
-                to={"/"}
-                end
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
+                to={item.to}
+                className="flex items-center gap-2 text-white text-xl px-4 py-2 rounded hover:bg-slate-700 hover:text-green-500 transition"
               >
-                <FaHome className="text-xl" />
-                Home
+                {item.icon}
+                {item.label}
               </NavLink>
             </li>
-            <li className="hover:bg-slate-700 rounded-md group">
-              <NavLink
-                to={"/category/movies"}
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
-              >
-                <BiMoviePlay className="text-xl" />
-                Movies
-              </NavLink>
-            </li>
-            <li className="hover:bg-slate-700 rounded-md group">
-              <NavLink
-                to={"/category/web-series"}
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
-              >
-                <IoIosGlobe className="text-xl" />
-                Web Series
-              </NavLink>
-            </li>
-            <li className="hover:bg-slate-700 rounded-md group">
-              <NavLink
-                to={"/category/genre"}
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
-              >
-                <FaLink className="text-xl" />
-                Genre
-              </NavLink>
-            </li>
-            <li className="hover:bg-slate-700 rounded-md group">
-              <NavLink
-                to={"/category/anime"}
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
-              >
-                <CiFaceSmile className="text-xl" />
-                Anime
-              </NavLink>
-            </li>
-            <li className="hover:bg-slate-700 rounded-md group">
-              <NavLink
-                to={"/category/18+"}
-                className="flex items-center gap-2 px-6 py-2 text-lg group-hover:text-green-500"
-              >
-                <TbRating18Plus className="text-xl" />
-                18+
-              </NavLink>
-            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Mobile Nav */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-slate-800 px-4 pb-4">
+          <div className="md:hidden mb-4">
+            <SearchBar placeholder="Search..." />
+          </div>
+
+          <ul className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  className="flex items-center gap-2 text-white px-4 py-2 rounded hover:bg-slate-700 hover:text-green-500 transition"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.icon}
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
-        </nav>
-      </div>
+        </div>
+      )}
     </header>
   );
 };

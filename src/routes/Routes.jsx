@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import MovieDetails from "../pages/MovieDetails";
 import CategoryPage from "../pages/CategoryPage";
 import Tags from "../pages/Tags";
+import SearchResults from "../components/SearchResults";
 
 const routes = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const routes = createBrowserRouter([
         element: <CategoryPage />,
       },
       {
+        path: "/search",
+        element: <SearchResults />,
+      },
+      {
         path: "tags/:slug",
         element: <Tags />,
       },
@@ -34,7 +39,7 @@ const routes = createBrowserRouter([
 ]);
 
 const Routes = () => {
-  return <RouterProvider router={routes}/>
+  return <RouterProvider router={routes} />;
 };
 
 export default Routes;

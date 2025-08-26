@@ -1,9 +1,10 @@
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const LatestReviewCard = ({ movie }) => {
   return (
-    <div className="max-w-xl w-full h-72 flex gap-6 bg-slate-800 shadow-md p-2 rounded-md">
+    <Link to={`/movie/${movie.slug}`} className="max-w-xl w-full h-72 flex gap-6 bg-slate-800 shadow-md p-2 rounded-md">
       <img
         src={movie.poster}
         alt={movie.title}
@@ -21,7 +22,7 @@ const LatestReviewCard = ({ movie }) => {
           <p className="text-md text-gray-300 line-clamp-3">{movie.description}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

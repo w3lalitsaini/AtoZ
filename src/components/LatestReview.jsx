@@ -31,7 +31,7 @@ const LatestReview = () => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -39,17 +39,11 @@ const LatestReview = () => {
       {
         breakpoint: 670,
         settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
+      
     ],
   };
 
@@ -60,7 +54,7 @@ const LatestReview = () => {
       </h1>
 
       {/* Arrow Controls */}
-      <div className="flex items-center justify-center md:justify-end gap-8 text-3xl mb-6">
+      <div className="flex items-center justify-center md:justify-end gap-8 mt-2 md:mt-0 text-3xl mb-6">
         <FaArrowAltCircleLeft
           onClick={previous}
           className="cursor-pointer text-green-500"

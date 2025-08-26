@@ -12,7 +12,7 @@ const HomeSlider = () => {
   const featuredMovies = data.filter((movie) => movie.featured);
 
   return (
-    <div className="w-full px-10 mt-2">
+    <div className="w-full px-10 mt-16 md:mt-36">
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={20}
