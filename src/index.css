@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  --Primary-color: #0f172a;
+  --Secondary: #1e293b;
+  --Accent: #e11d48;
+  --Light: #f8fafc;
+  --Dark: #0f172a;
+  --Highlight: #fbbf24;
+}
+
+body {
+  background: #020012;
+  color: aliceblue;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+}
+
