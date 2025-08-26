@@ -6,7 +6,6 @@ import Home from "../pages/Home";
 import MovieDetails from "../pages/MovieDetails";
 import CategoryPage from "../pages/CategoryPage";
 import Tags from "../pages/Tags";
-import SearchResults from "../components/SearchResults";
 
 const routes = createBrowserRouter([
   {
@@ -22,10 +21,7 @@ const routes = createBrowserRouter([
         path: "category/:slug",
         element: <CategoryPage />,
       },
-      {
-        path: "/search",
-        element: <SearchResults />,
-      },
+      
       {
         path: "tags/:slug",
         element: <Tags />,

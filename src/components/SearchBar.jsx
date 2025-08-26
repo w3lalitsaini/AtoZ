@@ -13,7 +13,7 @@ const SearchResults = () => {
   );
 
   return (
-    <div className="mt-28 px-4 text-white min-h-screen">
+    <div className="mt-28 px-4 text-white min-h-screen hidden">
       <h2 className="text-2xl mb-4">
         Search Results for: <span className="text-green-500">{query}</span>
       </h2>
