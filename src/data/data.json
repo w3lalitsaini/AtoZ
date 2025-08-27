@@ -104,5 +104,30 @@
       "age": "55",
       "Profession": "Actor, Producer"
     }
+  },
+  {
+    "id": 2,
+    "title": "Interstellar",
+    "slug": "interstellar",
+    "category": ["movies"],
+    "poster": "https://images-cdn.ubuy.co.in/634f31b94d925230316c8fd7-mcposters-interstellar-christopher-nolan.jpg",
+    "rating": 4.7,
+    "genres": ["Sci-Fi", "Drama"],
+    "releaseYear": 2014,
+    "duration": "2h 49min",
+    "language": "English",
+    "director": "Christopher Nolan",
+    "cast": ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+    "description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity’s survival.",
+    "trailer": "https://www.youtube.com/watch?v=zSWdZVtXT7E",
+    "featured": false,
+    "latest": true,
+    "section": ["trending", "top"],
+    "celebritie": {
+      "name": " Leonardo DiCaprio",
+      "image": "https://cdn.britannica.com/65/227665-050-D74A477E/American-actor-Leonardo-DiCaprio-2016.jpg?w=400&h=300&c=crop",
+      "age": "55",
+      "Profession": "Actor, Producar"
+    }
   }
 ]

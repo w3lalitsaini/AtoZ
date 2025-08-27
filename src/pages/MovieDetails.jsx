@@ -26,7 +26,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      <div className="max-w-5xl mx-auto px-4 pb-10 mt-36 text-white">
+      <div className="max-w-5xl mx-auto px-4 pb-10 mt-16 md:mt-36 text-white">
         {/* Description */}
         <div className="mb-8 bg-black/40 py-4 rounded shadow">
           <p className="text-lg leading-relaxed">

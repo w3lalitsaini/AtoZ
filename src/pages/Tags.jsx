@@ -51,7 +51,7 @@ const Tags = () => {
   };
 
   return (
-    <div className="px-6 pb-10 mt-36">
+    <div className="px-6 pb-10 mt-16 md:mt-36">
       <h1 className="text-3xl font-bold mb-6 capitalize text-green-600">
         Tag: {slug.replace("-", " ")}
       </h1>
