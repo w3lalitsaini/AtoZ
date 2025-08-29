@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import data from "../data/data.json";
 import Card from "../components/Card";
+import AdBanner from "../components/AdBanner";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -52,6 +53,8 @@ const Tags = () => {
 
   return (
     <div className="px-6 pb-10 mt-16 md:mt-36">
+      <AdBanner slot="9153983942" />
+
       <h1 className="text-3xl font-bold mb-6 capitalize text-green-600">
         Tag: {slug.replace("-", " ")}
       </h1>

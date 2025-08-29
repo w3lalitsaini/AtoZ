@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import data from "../data/data.json";
 import Card from "./Card";
 import CarouselSection from "./CarouselSection";
@@ -12,14 +12,17 @@ const Recommended = () => {
   const recommendedMovies = getRandomMovies(data, 6);
 
   return (
-    <CarouselSection
-      title="Recommended for you"
-      data={recommendedMovies}
-      slidesLg={4} // Large screen = 4 cards
-      slidesSm={2} // Mobile = 2 cards
-      Card={Card}
-    />
+    <>
+      <CarouselSection
+        title="Recommended for you"
+        data={recommendedMovies}
+        slidesLg={4}
+        slidesSm={2}
+        Card={Card}
+        lazyLoad={true}
+      />
+    </>
   );
 };
 
-export default Recommended;
+export default memo(Recommended);

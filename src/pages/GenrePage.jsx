@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaTags } from "react-icons/fa";
 import data from "../data/data.json";
+import AdBanner from "../components/AdBanner";
 
 const slugify = (str = "") =>
   str
@@ -57,6 +58,7 @@ const GenrePage = () => {
           ))}
         </div>
       )}
+      <AdBanner slot="9153983942" />
     </div>
   );
 };

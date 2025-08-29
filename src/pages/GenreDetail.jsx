@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import data from "../data/data.json";
 import Card from "../components/Card";
+import Seo from "../components/Seo"; // Add Seo import
+import AdBanner from "../components/AdBanner";
 
 const deslugify = (slug = "") =>
   slug
@@ -29,6 +31,28 @@ const GenreDetail = () => {
 
   return (
     <div className="px-6 pb-10 mt-16 md:mt-36">
+      <AdBanner slot="9153983942" />
+
+      {/* ✅ SEO */}
+      <Seo
+        title={`${label} Movies | AtoZMovies`}
+        description={`Watch the best ${label} movies on AtoZMovies. Browse trending, top-rated, and latest releases in this genre.`}
+        url={`https://atozmovies.in/genres/${slug}`}
+        image={items[0]?.poster || "https://atozmovies.in/default-og-image.jpg"}
+        schemaMarkup={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: `${label} Movies`,
+          description: `A collection of ${label} movies on AtoZMovies.`,
+          hasPart: items.map((movie) => ({
+            "@type": "Movie",
+            name: movie.title,
+            url: `https://atozmovies.in/movie/${movie.slug}`,
+            image: movie.poster,
+          })),
+        }}
+      />
+
       <h1 className="text-3xl font-bold mb-6">
         Genre: <span className="text-secondary">{label}</span>
       </h1>

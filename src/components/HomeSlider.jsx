@@ -7,6 +7,7 @@ import data from "../data/data.json";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
+// Use native lazy loading for images
 const HomeSlider = () => {
   const featuredMovies = data.filter((movie) => movie.featured);
 
@@ -15,19 +16,22 @@ const HomeSlider = () => {
       <Swiper
         modules={[Pagination, Autoplay]}
         spaceBetween={20}
-        slidesPerView={1} // Always show 1 slide
+        slidesPerView={1}
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000 }}
-        loop={true} // Loop the slides
+        loop={true}
       >
         {featuredMovies.map((movie) => (
           <SwiperSlide key={movie.id} className="!flex justify-center">
             <div className="w-full relative h-[40vh] md:h-[65vh] overflow-hidden shadow-lg">
               <Link to={`/movie/${movie.slug}`} className="block w-full h-full">
-                {/* Background Poster */}
-                <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${movie.poster})` }}
+                {/* Optimized Poster with Lazy Loading */}
+                <img
+                  src={movie.poster}
+                  alt={`${movie.title} movie poster`}
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
 
                 {/* Dark Gradient Overlay */}

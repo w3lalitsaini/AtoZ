@@ -4,7 +4,7 @@ import Button from "./Button";
 
 const Card = ({ movie }) => {
   return (
-    <div className="w-full h-[350px] sm:h-[320px] relative rounded-md overflow-hidden shadow-md border border-gray-500">
+    <div className="w-full h-[350px] sm:h-[430px] relative rounded-md overflow-hidden shadow-md border border-gray-500">
       <Link to={`/movie/${movie.slug}`} className="block w-full h-full group">
         {/* BG Image */}
         <div

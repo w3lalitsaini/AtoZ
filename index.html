@@ -2,12 +2,24 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ATOZ Movies</title>
-    
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3Z6G7P2322"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3Z6G7P2322');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2610891548777436"
+      crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body class="bg-black text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

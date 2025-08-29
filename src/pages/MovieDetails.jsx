@@ -4,6 +4,8 @@ import data from "../data/data.json";
 import { FaStar, FaTags, FaDownload, FaShareAlt } from "react-icons/fa";
 import AdBanner from "../components/AdBanner";
 import Recommended from "../components/Recommended";
+import Seo from "../components/Seo";
+import AdBannerRelaxed from "../components/AdBannerRelaxed";
 
 const MovieDetails = () => {
   const convertToEmbedUrl = (url) => {
@@ -26,6 +28,31 @@ const MovieDetails = () => {
 
   return (
     <>
+      {/* ✅ SEO Meta Tags for Movie */}
+      <Seo
+        title={`${movie.title} (${movie.year}) | AtoZMovies`}
+        description={
+          movie.description ||
+          `Watch ${movie.title} (${movie.year}) online or download in 480p, 720p, 1080p, and 4K. Multi-audio with English subtitles.`
+        }
+        url={`https://atozmovies.in/movie/${movie.slug}`}
+        image={movie.poster || "https://atozmovies.in/default-og-image.jpg"}
+        schemaMarkup={{
+          "@context": "https://schema.org",
+          "@type": "Movie",
+          name: movie.title,
+          description: movie.description,
+          image: movie.poster,
+          datePublished: movie.year,
+          genre: movie.genres,
+          director: movie.celebritie?.director || undefined,
+          actor: Array.isArray(movie.celebritie)
+            ? movie.celebritie.map((c) => c.name)
+            : movie.celebritie?.name,
+          url: `https://atozmovies.in/movie/${movie.slug}`,
+        }}
+      />
+
       <div className="max-w-5xl mx-auto px-4 pb-10 mt-16 md:mt-36 text-white">
         {/* Description */}
         <div className="mb-8 bg-black/40 py-4 rounded shadow">
@@ -140,6 +167,8 @@ const MovieDetails = () => {
           </div>
         </div>
 
+        <AdBanner slot="9153983942" />
+
         {/* Download Section */}
         <div className="mt-10">
           <h2 className="text-2xl font-semibold text-green-500 mb-3">
@@ -169,7 +198,7 @@ const MovieDetails = () => {
           </h2>
           <div className="flex gap-4">
             <a
-              href={`https://twitter.com/share?url=https://yourdomain.com/movie/${slug}`}
+              href={`https://twitter.com/share?url=https://atozmovies.in/movie/${slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-blue-500 px-4 py-2 rounded text-white flex items-center gap-2"
@@ -177,7 +206,7 @@ const MovieDetails = () => {
               <FaShareAlt /> Twitter
             </a>
             <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=https://yourdomain.com/movie/${slug}`}
+              href={`https://www.facebook.com/sharer/sharer.php?u=https://atozmovies.in/movie/${slug}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-blue-700 px-4 py-2 rounded text-white flex items-center gap-2"
@@ -195,14 +224,14 @@ const MovieDetails = () => {
           <p className="text-gray-300 leading-relaxed">{movie.storyline}</p>
         </div>
 
+        <AdBannerRelaxed slot="5985180530" />
+
         <div className="mt-10">
           <h2 className="text-2xl font-semibold text-green-500 mb-3">
             Personal Reaction
           </h2>
           <p className="text-gray-300 leading-relaxed">{movie.reaction}</p>
         </div>
-
-        <AdBanner slot={3920084541} />
 
         {movie.trailer && (
           <div className="mt-10">
@@ -222,11 +251,9 @@ const MovieDetails = () => {
             </div>
           </div>
         )}
-
       </div>
-        <Recommended/>
 
-
+      <Recommended />
     </>
   );
 };
