@@ -9,6 +9,9 @@ import Tags from "../pages/Tags";
 import GenrePage from "../pages/GenrePage";
 import GenreDetail from "../pages/GenreDetail";
 import AppContent from "../App";
+import Terms from "../pages/Terms";
+import Privacy from "../pages/Privacy";
+import Copyright from "../pages/Copyright";
 
 const routes = createBrowserRouter([
   {
@@ -20,12 +23,42 @@ const routes = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <Home /> },
-      { path: "category/:slug", element: <CategoryPage /> },
-      { path: "genre", element: <GenrePage /> },
-      { path: "genre/:slug", element: <GenreDetail /> },
-      { path: "tags/:slug", element: <Tags /> },
-      { path: "Movie/:slug", element: <MovieDetails /> },
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "category/:slug",
+        element: <CategoryPage />,
+      },
+      {
+        path: "genre",
+        element: <GenrePage />,
+      },
+      {
+        path: "genre/:slug",
+        element: <GenreDetail />,
+      },
+      {
+        path: "tags/:slug",
+        element: <Tags />,
+      },
+      {
+        path: "Movie/:slug",
+        element: <MovieDetails />,
+      },
+      {
+        path: "terms",
+        element: <Terms />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      },
+      {
+        path: "copyright",
+        element: <Copyright />,
+      },
     ],
   },
 ]);

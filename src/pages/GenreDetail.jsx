@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import data from "../data/data.json";
 import Card from "../components/Card";
-import Seo from "../components/Seo"; // Add Seo import
+import Seo from "../components/Seo"; // SEO component
 import AdBanner from "../components/AdBanner";
 
 const deslugify = (slug = "") =>
@@ -13,7 +12,15 @@ const deslugify = (slug = "") =>
 
 const GenreDetail = () => {
   const { slug } = useParams();
+  const [data, setData] = useState([]);
   const label = useMemo(() => deslugify(slug), [slug]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch((err) => console.error("Failed to load data.json:", err));
+  }, []);
 
   const items = useMemo(() => {
     return data.filter(
@@ -27,13 +34,14 @@ const GenreDetail = () => {
               .replace(/(^-|-$)/g, "") === slug
         )
     );
-  }, [slug]);
+  }, [slug, data]);
 
   return (
     <div className="px-6 pb-10 mt-16 md:mt-36">
+      {/* AdSense Banner */}
       <AdBanner slot="9153983942" />
 
-      {/* ✅ SEO */}
+      {/* SEO for genre page */}
       <Seo
         title={`${label} Movies | AtoZMovies`}
         description={`Watch the best ${label} movies on AtoZMovies. Browse trending, top-rated, and latest releases in this genre.`}

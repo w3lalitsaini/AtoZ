@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination, Autoplay } from "swiper/modules";
-import data from "../data/data.json";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 
-// Use native lazy loading for images
 const HomeSlider = () => {
-  const featuredMovies = data.filter((movie) => movie.featured);
+  const [featuredMovies, setFeaturedMovies] = useState([]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const featured = data.filter((movie) => movie.featured);
+        setFeaturedMovies(featured);
+      })
+      .catch((err) => console.error("Failed to load data.json:", err));
+  }, []);
+
+  if (featuredMovies.length === 0) return null;
 
   return (
     <div className="w-full px-1 md:px-10 mt-16 md:mt-36">
@@ -25,7 +35,6 @@ const HomeSlider = () => {
           <SwiperSlide key={movie.id} className="!flex justify-center">
             <div className="w-full relative h-[40vh] md:h-[65vh] overflow-hidden shadow-lg">
               <Link to={`/movie/${movie.slug}`} className="block w-full h-full">
-                {/* Optimized Poster with Lazy Loading */}
                 <img
                   src={movie.poster}
                   alt={`${movie.title} movie poster`}
@@ -34,10 +43,8 @@ const HomeSlider = () => {
                   className="absolute inset-0 w-full h-full object-cover"
                 />
 
-                {/* Dark Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent z-10" />
 
-                {/* Content */}
                 <div className="relative z-20 p-6 md:pb-2 text-white h-full flex flex-col justify-end space-y-3 max-w-[80%]">
                   <div className="flex flex-col items-start">
                     <h3 className="text-2xl md:text-4xl font-bold">

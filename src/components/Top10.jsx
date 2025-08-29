@@ -1,13 +1,25 @@
-import React, { memo } from "react";
-import data from "../data/data.json";
+import React, { useEffect, useState, memo } from "react";
 import Card from "./Card";
 import CarouselSection from "./CarouselSection";
 import Seo from "./Seo";
 
 const Top10 = () => {
-  const topMovies = data.filter(
-    (movie) => Array.isArray(movie.section) && movie.section.includes("top")
-  );
+  const [topMovies, setTopMovies] = useState([]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const filtered = data.filter(
+          (movie) =>
+            Array.isArray(movie.section) && movie.section.includes("top")
+        );
+        setTopMovies(filtered);
+      })
+      .catch((err) => console.error("Failed to load data.json:", err));
+  }, []);
+
+  if (topMovies.length === 0) return null;
 
   return (
     <>
@@ -15,7 +27,7 @@ const Top10 = () => {
       <Seo
         title="Top 10 Movies This Week | AtoZMovies"
         description="Discover the top 10 most-watched movies this week on AtoZMovies. Updated weekly with ratings, reviews, and trailers."
-        url="https://atozmovies.in/" // changed from canonical to url
+        url="https://atozmovies.in/"
         image={
           topMovies[0]?.poster || "https://atozmovies.in/default-og-image.jpg"
         }

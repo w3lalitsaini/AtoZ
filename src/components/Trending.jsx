@@ -1,14 +1,25 @@
-import React, { memo } from "react";
-import data from "../data/data.json";
+import React, { useEffect, useState, memo } from "react";
 import Card from "./Card";
 import CarouselSection from "./CarouselSection";
 import Seo from "./Seo";
 
-const Top10 = () => {
-  const trendingMovies = data.filter(
-    (movie) =>
-      Array.isArray(movie.section) && movie.section.includes("trending")
-  );
+const TrendingMovies = () => {
+  const [trendingMovies, setTrendingMovies] = useState([]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        const filtered = data.filter(
+          (movie) =>
+            Array.isArray(movie.section) && movie.section.includes("trending")
+        );
+        setTrendingMovies(filtered);
+      })
+      .catch((err) => console.error("Failed to load data.json:", err));
+  }, []);
+
+  if (trendingMovies.length === 0) return null;
 
   return (
     <>
@@ -46,4 +57,4 @@ const Top10 = () => {
   );
 };
 
-export default memo(Top10);
+export default memo(TrendingMovies);

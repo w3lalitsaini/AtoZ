@@ -1,7 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { FaTags } from "react-icons/fa";
-import data from "../data/data.json";
 import AdBanner from "../components/AdBanner";
 
 const slugify = (str = "") =>
@@ -11,6 +10,15 @@ const slugify = (str = "") =>
     .replace(/(^-|-$)/g, "");
 
 const GenrePage = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch((err) => console.error("Failed to fetch data.json:", err));
+  }, []);
+
   // collect unique genres with counts
   const genres = useMemo(() => {
     const map = new Map();
@@ -26,7 +34,7 @@ const GenrePage = () => {
     return Array.from(map.entries())
       .map(([name, count]) => ({ name, count, slug: slugify(name) }))
       .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-  }, []);
+  }, [data]);
 
   return (
     <div className="px-6 pb-10 mt-16 md:mt-36">
@@ -58,6 +66,7 @@ const GenrePage = () => {
           ))}
         </div>
       )}
+
       <AdBanner slot="9153983942" />
     </div>
   );

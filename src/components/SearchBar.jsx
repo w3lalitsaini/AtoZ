@@ -1,28 +1,39 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Fuse from "fuse.js";
-import { FaSearch } from "react-icons/fa";
-import moviesData from "../data/data.json"; // adjust path if needed
-
-const fuse = new Fuse(moviesData, {
-  keys: ["title"],
-  threshold: 0.4,
-  includeScore: true,
-});
 
 const SearchBar = ({ placeholder = "Search...", className = "" }) => {
+  const [data, setData] = useState([]);
+  const [fuse, setFuse] = useState(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const timeoutRef = useRef(null);
   const containerRef = useRef();
 
-  // Debounced fuzzy search
+  // Fetch data.json dynamically
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((json) => {
+        setData(json);
+        setFuse(
+          new Fuse(json, {
+            keys: ["title"],
+            threshold: 0.4,
+            includeScore: true,
+          })
+        );
+      })
+      .catch((err) => console.error("Failed to fetch data.json:", err));
+  }, []);
+
+  // Debounced search
   const handleSearch = (value) => {
     setQuery(value);
     clearTimeout(timeoutRef.current);
 
     timeoutRef.current = setTimeout(() => {
-      if (value.trim() === "") {
+      if (!fuse || value.trim() === "") {
         setResults([]);
         return;
       }
@@ -52,7 +63,7 @@ const SearchBar = ({ placeholder = "Search...", className = "" }) => {
           placeholder={placeholder}
           className="bg-transparent outline-none px-2 py-1 text-white placeholder:text-white w-full"
         />
-        <FaSearch className="text-white" />
+        <span className="text-white">🔍</span>
       </div>
 
       {results.length > 0 && (

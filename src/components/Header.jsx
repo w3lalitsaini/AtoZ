@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { FaBars, FaTimes, FaHome, FaSearch } from "react-icons/fa";
 import { BiMoviePlay } from "react-icons/bi";
@@ -10,6 +10,7 @@ import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menuRef = useRef();
 
   const navItems = [
     { to: "/", label: "Home", icon: <FaHome /> },
@@ -20,8 +21,22 @@ const Header = () => {
     { to: "/category/18+", label: "18+", icon: <TbRating18Plus /> },
   ];
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <header className="fixed top-0 w-full z-50 bg-slate-900 shadow-lg">
+    <header
+      className="fixed top-0 w-full z-50 bg-slate-900 shadow-lg"
+      ref={menuRef}
+    >
       <div className="flex items-center justify-between px-4 md:px-16 py-3">
         <NavLink to="/" className="text-2xl font-bold text-white">
           a2z <span className="text-green-500">Movies</span>
@@ -62,17 +77,17 @@ const Header = () => {
 
       {/* Mobile Nav */}
       {isMenuOpen && (
-        <div className="md:hidden bg-slate-800 px-4 pb-4">
+        <div className="md:hidden bg-slate-900 px-6 pb-20 mt-4">
           <div className="md:hidden mb-4">
             <SearchBar placeholder="Search..." />
           </div>
 
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-6">
             {navItems.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
-                  className="flex items-center gap-2 text-white px-4 py-2 rounded hover:bg-slate-700 hover:text-green-500 transition"
+                  className="flex items-center gap-3 text-2xl text-white px-4 py-2 rounded hover:bg-slate-700 hover:text-green-500 transition"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.icon}

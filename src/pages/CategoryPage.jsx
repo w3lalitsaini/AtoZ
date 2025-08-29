@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import data from "../data/data.json";
 import Card from "../components/Card";
 import Seo from "../components/Seo";
 import AdBanner from "../components/AdBanner";
@@ -9,16 +8,18 @@ const ITEMS_PER_PAGE = 12;
 
 const CategoryPage = () => {
   const { slug } = useParams();
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filter only once using useMemo for performance
-  const filteredMovies = useMemo(
-    () =>
-      data.filter(
-        (movie) =>
-          Array.isArray(movie.category) && movie.category.includes(slug)
-      ),
-    [slug]
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((json) => setData(json))
+      .catch((err) => console.error("Failed to fetch data.json:", err));
+  }, []);
+
+  const filteredMovies = data.filter(
+    (movie) => Array.isArray(movie.category) && movie.category.includes(slug)
   );
 
   const totalPages = Math.ceil(filteredMovies.length / ITEMS_PER_PAGE);
@@ -33,7 +34,6 @@ const CategoryPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Generate pagination buttons
   const getPagination = () => {
     const pages = [];
     if (totalPages <= 7) {
@@ -55,11 +55,10 @@ const CategoryPage = () => {
   return (
     <div className="px-6 pb-10 mt-16 md:mt-36">
       <AdBanner slot="9153983942" />
-      {/* ✅ SEO Meta Tags */}
       <Seo
         title={`${categoryName} Movies | AtoZMovies`}
         description={`Watch the best ${categoryName} movies on AtoZMovies. Browse trending, top-rated, and latest releases in this category.`}
-        url={`https://atozmovies.in/category/${slug}`} // updated
+        url={`https://atozmovies.in/category/${slug}`}
         image={
           filteredMovies[0]?.poster ||
           "https://atozmovies.in/default-og-image.jpg"
@@ -84,14 +83,12 @@ const CategoryPage = () => {
 
       {currentMovies.length > 0 ? (
         <>
-          {/* ✅ Lazy-loaded movie cards */}
           <div className="grid gap-6 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {currentMovies.map((movie) => (
               <Card key={movie.id} movie={movie} lazyLoad={true} />
             ))}
           </div>
 
-          {/* ✅ Pagination */}
           <div className="mt-10 flex justify-center gap-2 flex-wrap">
             {getPagination().map((item, index) => (
               <button

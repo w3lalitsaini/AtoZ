@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import data from "../data/data.json";
 import { FaStar, FaTags, FaDownload, FaShareAlt } from "react-icons/fa";
 import AdBanner from "../components/AdBanner";
 import Recommended from "../components/Recommended";
@@ -8,13 +7,27 @@ import Seo from "../components/Seo";
 import AdBannerRelaxed from "../components/AdBannerRelaxed";
 
 const MovieDetails = () => {
+  const { slug } = useParams();
+  const [data, setData] = useState([]);
+  const [movie, setMovie] = useState(null);
+
+  const downloadQualities = ["480p", "720p", "1080p", "4K"];
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((json) => {
+        setData(json);
+        const foundMovie = json.find((m) => m.slug === slug);
+        setMovie(foundMovie);
+      })
+      .catch((err) => console.error("Failed to fetch data.json:", err));
+  }, [slug]);
+
   const convertToEmbedUrl = (url) => {
     if (!url) return null;
     return url.replace("watch?v=", "embed/");
   };
-
-  const { slug } = useParams();
-  const movie = data.find((movie) => movie.slug === slug);
 
   if (!movie) {
     return (
@@ -23,8 +36,6 @@ const MovieDetails = () => {
       </div>
     );
   }
-
-  const downloadQualities = ["480p", "720p", "1080p", "4K"];
 
   return (
     <>
@@ -48,7 +59,7 @@ const MovieDetails = () => {
           director: movie.celebritie?.director || undefined,
           actor: Array.isArray(movie.celebritie)
             ? movie.celebritie.map((c) => c.name)
-            : movie.celebritie?.name,
+            : movie.celebritie?.name || movie.cast?.join(", "),
           url: `https://atozmovies.in/movie/${movie.slug}`,
         }}
       />
@@ -159,8 +170,8 @@ const MovieDetails = () => {
                 <strong>Cast:</strong>{" "}
                 <span>
                   {Array.isArray(movie.celebritie)
-                    ? movie.celebritie.join(", ")
-                    : movie.celebritie?.name}
+                    ? movie.celebritie.map((c) => c.name).join(", ")
+                    : movie.celebritie?.name || movie.cast?.join(", ")}
                 </span>
               </p>
             </div>
@@ -177,7 +188,6 @@ const MovieDetails = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {downloadQualities.map((q) => {
               const randomMovie = data[Math.floor(Math.random() * data.length)];
-
               return (
                 <a
                   key={q}
@@ -191,7 +201,7 @@ const MovieDetails = () => {
           </div>
         </div>
 
-        {/* Social Share Buttons */}
+        {/* Social Share */}
         <div className="mt-10">
           <h2 className="text-2xl font-semibold text-green-500 mb-3">
             Share This Movie
