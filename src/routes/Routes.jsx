@@ -6,6 +6,8 @@ import Home from "../pages/Home";
 import MovieDetails from "../pages/MovieDetails";
 import CategoryPage from "../pages/CategoryPage";
 import Tags from "../pages/Tags";
+import GenrePage from "../pages/GenrePage";
+import GenreDetail from "../pages/GenreDetail";
 
 const routes = createBrowserRouter([
   {
@@ -21,7 +23,14 @@ const routes = createBrowserRouter([
         path: "category/:slug",
         element: <CategoryPage />,
       },
-      
+      {
+        path: "/genre",
+        element: <GenrePage />,
+      },
+      {
+        path: "/genre/:slug",
+        element: <GenreDetail />,
+      },
       {
         path: "tags/:slug",
         element: <Tags />,

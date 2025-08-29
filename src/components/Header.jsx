@@ -14,9 +14,9 @@ const Header = () => {
   const navItems = [
     { to: "/", label: "Home", icon: <FaHome /> },
     { to: "/category/movies", label: "Movies", icon: <BiMoviePlay /> },
-    { to: "/category/web-series", label: "Web Series", icon: <IoIosGlobe /> },
-    { to: "/category/genre", label: "Genre", icon: <FaLink /> },
-    { to: "/category/anime", label: "Anime", icon: <CiFaceSmile /> },
+    { to: "/category/webseries", label: "Web Series", icon: <IoIosGlobe /> },
+    { to: "/genre", label: "Genre", icon: <FaLink /> },
+    { to: "/category/animation", label: "Anime", icon: <CiFaceSmile /> },
     { to: "/category/18+", label: "18+", icon: <TbRating18Plus /> },
   ];
 
@@ -28,7 +28,10 @@ const Header = () => {
         </NavLink>
 
         <div className="hidden md:block w-80">
-          <SearchBar className="w-full max-w-lg" placeholder="What are you lookig for?" />
+          <SearchBar
+            className="w-full max-w-lg"
+            placeholder="What are you lookig for?"
+          />
         </div>
 
         {/* Mobile menu button */}
